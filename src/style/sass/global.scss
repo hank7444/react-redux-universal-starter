@@ -1,0 +1,10 @@
+@import "compass";
+
+$red: #ff0000;
+
+h1 {
+	color: $red;
+	font-size: 100px;
+	@include border-radius(10px);
+	background-color: black;
+}
