@@ -84,7 +84,7 @@ export default class App extends Component {
     }
     else if (!this.props.tickets.orderId && nextProps.tickets.orderId) {
        console.log('GOGOGOGO!!!!');
-       this.context.router.transitionTo('/TicketStep2');
+       this.context.router.transitionTo('/TicketStep2/' + nextProps.tickets.orderId);
     }
     else if (!this.props.tickets.goStep3 && nextProps.tickets.goStep3) {
       console.log('GOGOGOGO STEP3!!!!');

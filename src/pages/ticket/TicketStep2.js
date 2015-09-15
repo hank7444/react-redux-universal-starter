@@ -5,6 +5,12 @@ import {connect} from 'react-redux';
 import * as ticketActions from '../../ducks/tickets';
 import TicketItem from '../../components/TicketItem';
 
+
+
+/*
+  看一次提醒自己一次，this.props要跟reducer的state做關聯才能在react中使用, 
+  在這邊也可以整理自己要用的資料，把不必要的資料隱藏，避免誤用
+*/
 @connect(
   state => ({
     orderId: state.tickets.orderId,
@@ -18,6 +24,8 @@ import TicketItem from '../../components/TicketItem';
     }, dispatch)
   })
 )
+
+
 
 
 /*
@@ -53,6 +61,17 @@ export default class TicketStep2 extends Component {
 
     
     const {orderData} = this.props;
+    const {error} = this.props;
+    
+
+    // 有沒有比較好的方法可以驗證物件屬性是否存在呢?
+    let currency = 0;
+    let total = 0;
+
+    if (!error) {
+      currency = orderData.amount.currency;
+      total = orderData.amount.total;
+    }
 
     //console.log('TicketStep2###:', orderData);
 
@@ -61,7 +80,13 @@ export default class TicketStep2 extends Component {
       <div className="container">
 
         <h3>購票清單</h3>
-        
+
+
+        {error && 
+        <div className="alert alert-danger alert-dismissible">
+          {error}
+        </div>}
+
         <table className="table">
           <thead>
             <tr className="active">
@@ -72,7 +97,7 @@ export default class TicketStep2 extends Component {
             </tr>
           </thead>
           <tbody>
-            {
+            { orderData &&
               orderData.lineItems.map((ticket) => 
                 <TicketItem key={ticket.id} data={ticket} amount={orderData.amount} />
               )
@@ -82,7 +107,7 @@ export default class TicketStep2 extends Component {
               <td>總金額</td>
               <td></td>
               <td></td>
-              <td>{orderData.amount.currency} {orderData.amount.total}</td>
+              <td>{currency} {total}</td>
             </tr>
           </tbody>
         </table>
@@ -106,12 +131,14 @@ export default class TicketStep2 extends Component {
           <button className="btn btn-primary btn-lg" onClick={::this.handleStep2Submit}>確認表單資料</button>
         </form>
 
-
-
-
-      
       </div>
     );
+  }
+
+
+  static fetchData(store, params, query) {
+
+    return store.dispatch(ticketActions.getOrderById(params.orderId));
   }
 
 

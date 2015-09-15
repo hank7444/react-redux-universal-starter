@@ -31,6 +31,7 @@ export default function(store) {
 
       <Route component={RequireOrderId} onEnter={RequireOrderId.onEnter(store)}>
         <Route path="/ticketStep2" component={TicketStep2}/>
+        <Route path="/ticketStep2/:orderId" component={TicketStep2}/>
       </Route>
 
 

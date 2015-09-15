@@ -9,6 +9,11 @@ const STEP1_SUCCESS = 'redux-example/tickets/STEP1_SUCCESS';
 const STEP1_FAIL = 'redux-example/tickets/STEP1_FAIL';
 
 
+const GET_ORDER_LOAD = 'redux-example/tickets/GET_ORDER_LOAD';
+const GET_ORDER_SUCCESS = 'redux-example/tickets/GET_ORDER_SUCCESS';
+const GET_ORDER_FAIL = 'redux-example/tickets/GET_ORDER_FAIL';
+
+
 const STEP2 = 'redux-example/tickets/STEP2';
 const STEP2_SUCCESS = 'redux-example/tickets/STEP2_SUCCESS';
 const STEP2_FAIL = 'redux-example/tickets/STEP2_FAIL';
@@ -21,6 +26,9 @@ const initialState = {
 
 
 export default function reducer(state = initialState, action = {}) {
+
+
+  console.log('action:', action);
 
 
   /*
@@ -95,6 +103,37 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case STEP1_FAIL: 
+
+      return {
+        ...state,
+        goStep2: false,
+        loading: false,
+        loaded: false,
+        error: action.error
+      };
+
+
+    case GET_ORDER_LOAD:
+      return {
+        ...state,
+        loading: true,
+        loaded: false
+      };
+
+
+    case GET_ORDER_SUCCESS:
+
+      //console.log(action.result);
+
+      return {
+        ...state,
+        orderId: action.result.id,
+        orderData: action.result,
+        loading: false,
+        loaded: true
+      };
+
+    case GET_ORDER_FAIL: 
 
       return {
         ...state,
@@ -194,5 +233,14 @@ export function editItemNumber(id, number) {
     type: EDIT_ITEM_NUMBER,
     id,
     number
+  };
+}
+
+
+export function getOrderById(orderId) {
+
+  return {
+    types: [GET_ORDER_LOAD, GET_ORDER_SUCCESS, GET_ORDER_FAIL],
+    promise: (client) => client.get('/api/v1/orders/' + orderId)
   };
 }

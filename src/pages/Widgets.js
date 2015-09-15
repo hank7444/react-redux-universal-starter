@@ -33,6 +33,9 @@ class Widgets extends Component {
   }
 
   render() {
+
+    console.log('this.props', this.props);
+
     const {widgets, error, editing, loading, load} = this.props;
     let refreshClassName = 'fa fa-refresh';
     if (loading) {

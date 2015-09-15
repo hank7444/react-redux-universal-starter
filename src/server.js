@@ -23,7 +23,6 @@ const proxyLocal = httpProxy.createProxyServer({
 const proxyTicketApi = httpProxy.createProxyServer((function() {
   
   let target = 'http://192.168.1.39:5001';
-
   
   if (config.debug) {
     target = 'http://localhost:' + config.apiPort
