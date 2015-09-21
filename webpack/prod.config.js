@@ -27,7 +27,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel?stage=0&optional=runtime&plugins=typecheck']},
+      { test: /\.js$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel']},
       { test: /\.json$/, loader: 'json-loader' },
 
       { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") },

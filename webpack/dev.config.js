@@ -31,7 +31,8 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loaders: ['babel', 'eslint-loader']},
+      { test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', 'babel?stage=0&optional=runtime&plugins=typecheck']},
+      //{ test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
       { test: /\.json$/, loader: 'json-loader'},
       { test: /\.css$/, loader: 'style-loader!css-loader' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },

@@ -14,7 +14,7 @@ import universalRouter from './helpers/universalRouter';
 // global webpack引入style請放在這裡
 
 import './style/sass/global.scss';
-
+//import './style/css/test.css'; // css import會有問題...
 
 const history = new BrowserHistory();
 const client = new ApiClient();

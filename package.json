@@ -24,7 +24,9 @@
   ],
   "main": "bin/server.js",
   "scripts": {
-    "start": "node ./node_modules/better-npm-run start",
+    "start": "concurrent --kill-others \"npm run start-prod\" \"npm run start-prod-api\"",
+    "start-prod": "node ./node_modules/better-npm-run start-prod",
+    "start-prod-api": "node ./node_modules/better-npm-run start-prod-api",
     "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
     "lint": "eslint -c .eslintrc src",
     "start-dev": "node ./node_modules/better-npm-run start-dev",
@@ -34,12 +36,21 @@
     "test": "karma start"
   },
   "betterScripts": {
-    "start": {
+    "start-prod": {
       "command": "node ./bin/server.js",
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
-        "PORT": 8080
+        "PORT": 8080,
+        "APIPORT": 3030
+      }
+    },
+    "start-prod-api": {
+      "command": "node ./bin/api.js",
+      "env": {
+        "NODE_PATH": "./api",
+        "NODE_ENV": "production",
+        "APIPORT": 3030
       }
     },
     "start-dev": {
@@ -69,6 +80,7 @@
     "babel": "5.8.23",
     "babel-plugin-typecheck": "1.2.0",
     "body-parser": "^1.13.2",
+    "compass-mixins": "^0.12.7",
     "compression": "^1.5.0",
     "express": "^4.13.0",
     "express-session": "^1.11.3",
@@ -105,12 +117,13 @@
     "chai": "^3.2.0",
     "clean-webpack-plugin": "^0.1.3",
     "concurrently": "0.1.1",
-    "css-loader": "^0.17.0",
+    "css-loader": "^0.18.0",
     "eslint": "^1.3.1",
     "eslint-loader": "^1.0.0",
     "eslint-config-airbnb": "0.0.8",
     "eslint-plugin-react": "^3.2.3",
-    "extract-text-webpack-plugin": "^0.8.1",
+    "ip": "^1.0.1",
+    "extract-text-webpack-plugin": "^0.8.2",
     "json-loader": "0.5.2",
     "karma": "^0.13.3",
     "karma-chrome-launcher": "^0.2.0",

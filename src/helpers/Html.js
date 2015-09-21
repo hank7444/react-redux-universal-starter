@@ -8,7 +8,7 @@ const cdn = '//cdnjs.cloudflare.com/ajax/libs/';
 
 //import bootstrap from 'bootstrap/dist/css/bootstrap.css'
 
-//import './style/css/test.css'
+import '../style/css/test.css'
 
 /**
  * Wrapper component containing HTML metadata and boilerplate tags.
@@ -34,15 +34,16 @@ export default class Html extends Component {
       <html lang="en-us">
         <head>
           <meta charSet="utf-8"/>
-          {DocumentMeta.rewind({asReact: true})}
+          {DocumentMeta.renderAsReact()}
 
           <link rel="shortcut icon" href="/favicon.ico" />
 
+          {/*
           <link href={cdn + 'twitter-bootstrap/3.3.5/css/bootstrap.css'}
                 media="screen, projection" rel="stylesheet" type="text/css" />
           <link href={cdn + 'font-awesome/4.3.0/css/font-awesome.min.css'}
                 media="screen, projection" rel="stylesheet" type="text/css" />
-
+          */}
 
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, i) =>
