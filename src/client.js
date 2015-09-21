@@ -7,13 +7,12 @@ import BrowserHistory from 'react-router/lib/BrowserHistory';
 import Location from 'react-router/lib/Location';
 import queryString from 'query-string';
 import configureStore from './store/configureStore';
-import ApiClient from './ApiClient';
-import universalRouter from './router/universalRouter';
+import ApiClient from './helpers/ApiClient';
+import universalRouter from './helpers/universalRouter';
 
 // 如果是這樣引入, 在webpack的js未載入時，會沒有bootstrap style
 // global webpack引入style請放在這裡
 
-//import 'bootstrap/dist/css/bootstrap.css'; // production 順序會有問題..
 import './style/sass/global.scss';
 
 
@@ -51,8 +50,6 @@ universalRouter(location, history, store)
 if (process.env.NODE_ENV !== 'production') {
   window.React = React; // enable debugger
   const reactRoot = window.document.getElementById('content');
-
-  console.info('==> ✅  client is listening');
 
   if (!reactRoot || !reactRoot.firstChild || !reactRoot.firstChild.attributes || !reactRoot.firstChild.attributes['data-react-checksum']) {
     console.error('Server-side React render was discarded. Make sure that your initial render does not contain any client-side code.');

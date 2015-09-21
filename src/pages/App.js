@@ -6,7 +6,7 @@ import DocumentMeta from 'react-document-meta';
 import {isLoaded as isInfoLoaded, load as loadInfo} from '../ducks/info';
 import {isLoaded as isAuthLoaded, load as loadAuth, logout} from '../ducks/auth';
 import InfoBar from '../components/InfoBar';
-import {createTransitionHook} from '../router/universalRouter';
+import {createTransitionHook} from '../helpers/universalRouter';
 import mataData from './utilities/meta';
 
 import '../style/sass/global.scss';

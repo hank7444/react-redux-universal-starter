@@ -1,12 +1,10 @@
 import superagent from 'superagent';
-import config from './config';
-
+import config from '../config';
 
 // 外部API位置Hash
 var apiHash = config.debug ? {} : {
   'apiTicket': 'http://192.168.1.177:5001'
 };
-
 
 /*
  * This silly underscore is here to avoid a mysterious "ReferenceError: ApiClient is not defined" error.
@@ -21,8 +19,6 @@ class ApiClient_ {
         this[method] = (path, options) => {
           return new Promise((resolve, reject) => {
 
-
-            //console.log('path', path);
             const matcher = path.split('?')[0].split('/').slice(1);
             const domain = apiHash[matcher[0]];
             const request = superagent[method](this.formatUrl(path, domain));
@@ -30,8 +26,6 @@ class ApiClient_ {
             if (options && options.params) {
               request.query(options.params);
             }
-
-            //console.log('##### inside API Client!!');
             request.set('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.b0dWTEZvSTgxQk5xcnQ1N2RobGFyM2dYQitnMTFjbEYwUW9FVGVKRTJ5Z1Bxb0Q2UU95ZUx2ZTYvM0Y1YXcrZGZYY2NIWUNwMS9xdGc1U2tqK3JtQUdIcGh0VnRPd21kM1RhejEwdjVYYWhCWTJaVWdITzIxTjY1T0ZzOUdNZmQ5N09SejhBc2x3ZXRoWURxbW10M1JrNmlZK1JTZG91ZEVJaFgyYUdqUXArTzJZWVhZVEFuWVlyL0JIRTFlNTl3ME11ZzhtZ0JLaEZhMTYzSFc4K0VoK2dERnlySGU2c3NvTWE3dkhjcFY0ND0.Ce0Z4mlAJ8ofd0ZOtA3QnzSPFyqXRnZ77B0EA98CWsM');
 
             if (__SERVER__) {

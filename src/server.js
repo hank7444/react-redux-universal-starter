@@ -7,10 +7,9 @@ import compression from 'compression';
 import httpProxy from 'http-proxy';
 import path from 'path';
 import configureStore from './store/configureStore';
-import api from './api/api';
-import ApiClient from './ApiClient';
-import universalRouter from './router/universalRouter';
-import Html from './Html';
+import ApiClient from './helpers/ApiClient';
+import universalRouter from './helpers/universalRouter';
+import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
 
 const pretty = new PrettyError();
@@ -19,10 +18,8 @@ const proxy = httpProxy.createProxyServer({
   target: 'http://localhost:' + config.apiPort
 });
 
-
 app.use(compression());
-app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
-
+app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')))
 app.use(require('serve-static')(path.join(__dirname, '..', 'static')));
 
 // Proxy to API server
@@ -33,10 +30,10 @@ app.use('/api', (req, res) => {
   proxy.web(req, res);
 });
 
+
 app.use('/apiTicket', (req, res) => {
   proxy.web(req, res);
 });
-
 
 
 // added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
@@ -51,10 +48,6 @@ proxy.on('error', (error, req, res) => {
   res.end(JSON.stringify(json));
 });
 
-
-
-
-
 app.use((req, res) => {
 
   if (__DEVELOPMENT__) {
@@ -66,10 +59,14 @@ app.use((req, res) => {
   const store = configureStore(client);
   const location = new Location(req.path, req.query);
 
+  const hydrateOnClient = function() {
+    res.send('<!doctype html>\n' +
+      React.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div/>} store={store}/>));
+  }
+
   // 如果將server render關掉時
   if (__DISABLE_SSR__) {
-    res.send('<!doctype Html>\n' +
-      React.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div/>} store={store}/>));
+    hydrateOnClient();
   } else {
     universalRouter(location, undefined, store)
       .then(({component, transition, isRedirect}) => {
@@ -86,7 +83,7 @@ app.use((req, res) => {
           return;
         }
         console.error('ROUTER ERROR:', pretty.render(error));
-        res.status(500).send({error: error.stack});
+        hydrateOnClient();
       });
   }
 });
@@ -95,14 +92,10 @@ if (config.port) {
   app.listen(config.port, (err) => {
     if (err) {
       console.error(err);
-    } else {
-      api().then(() => {
-        console.info('==> ✅  Server is listening');
-        console.info('==> 🌎  %s running on port %s, API on port %s', config.app.name, config.port, config.apiPort);
-        console.info('----------\n==> 💻  Open http://localhost:%s in a browser to view the app.', config.port);
-      });
     }
+    console.info('----\n==> ✅  %s is running, talking to API server on %s.', config.app.name, config.apiPort);
+    console.info('==> 💻  Open http://localhost:%s in a browser to view the app.', config.port);
   });
 } else {
-  console.error('==>     ERROR: No PORT environment variable has been specified');
+  console.error('==> ERROR: No PORT environment variable has been specified');
 }

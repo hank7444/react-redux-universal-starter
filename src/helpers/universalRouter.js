@@ -1,6 +1,6 @@
 import React from 'react';
 import Router from 'react-router';
-import createRoutes from './createRoutes';
+import createRoutes from '../routes';
 import { Provider } from 'react-redux';
 
 // 從Html.js 如果有包裹其他子元件，就一直往下找，return所有fetchData fucntion

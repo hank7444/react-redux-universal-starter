@@ -102,7 +102,7 @@ const getOrderData = {
 export default function orders(req) {
 
 
-  //console.log('#####Get Request from Jmeter!!');
+  console.log('#####Get Request from Jmeter!!');
 
   const method = req.method;
 
@@ -118,6 +118,8 @@ export default function orders(req) {
   }
 
 
+  console.log('orders Data:', data);
+
 
   return new Promise((resolve, reject) => {
     // make async call to database
@@ -130,5 +132,11 @@ export default function orders(req) {
 
   });
 }
+
+
+
+
+
+
 
 

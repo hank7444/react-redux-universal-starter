@@ -1,20 +1,20 @@
 import React from 'react';
 import {Route} from 'react-router';
-import App from '../pages/App';
-import Home from '../pages/Home';
-import Widgets from '../pages/Widgets';
-import About from '../pages/About';
-import Login from '../pages/Login';
-import RequireLogin from '../pages/RequireLogin';
-import LoginSuccess from '../pages/LoginSuccess';
-import Survey from '../pages/Survey';
-import NotFound from '../pages/NotFound';
+import App from './pages/App';
+import Home from './pages/Home';
+import Widgets from './pages/Widgets';
+import About from './pages/About';
+import Login from './pages/Login';
+import RequireLogin from './pages/RequireLogin';
+import LoginSuccess from './pages/LoginSuccess';
+import Survey from './pages/Survey';
+import NotFound from './pages/NotFound';
 
-import Ticket from '../pages/ticket/Ticket';
-import TicketStep2 from '../pages/ticket/TicketStep2';
-import TicketStep3 from '../pages/ticket/TicketStep3';
-import RequireOrderId from '../pages/ticket/RequireOrderId';
-import RequireGoStep3 from '../pages/ticket/RequireGoStep3';
+import Ticket from './pages/ticket/Ticket';
+import TicketStep2 from './pages/ticket/TicketStep2';
+import TicketStep3 from './pages/ticket/TicketStep3';
+import RequireOrderId from './pages/ticket/RequireOrderId';
+import RequireGoStep3 from './pages/ticket/RequireGoStep3';
 
 
 

@@ -91,8 +91,6 @@ export default function reducer(state = initialState, action = {}) {
 
     case STEP1_SUCCESS:
 
-      //console.log(action.result);
-
       return {
         ...state,
         goStep2: true,

@@ -6,11 +6,11 @@ module.exports = {
     app: {
       name: 'React Redux Example Development'
     },
-    debug: false
+    debug: true
   },
   production: {
     isProduction: true,
-    port: process.env.PORT,
+    port: 3000,
     apiPort: 3030,
     app: {
       name: 'React Redux Example Production'
