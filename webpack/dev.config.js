@@ -1,9 +1,11 @@
 var path = require('path');
 var webpack = require('webpack');
 var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
+var ip = require('ip');
 var assetsPath = path.resolve(__dirname, '../static/dist');
-var host = 'localhost';
+var host = ip.address() || 'localhost';
 var port = parseInt(process.env.PORT) + 1 || 3001;
+
 
 // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');

@@ -6,7 +6,7 @@ import GithubButton from '../components/GithubButton';
 export default class Home extends Component {
   render() {
 
-    console.log('## Home ## this.props:', this.props);
+    //console.log('## Home ## this.props:', this.props);
 
     const styles = require('../style/sass/pages/Home.scss');
     // require the logo image both from client and server

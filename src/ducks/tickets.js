@@ -28,7 +28,7 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
 
 
-  console.log('action:', action);
+  //console.log('action:', action);
 
 
   /*
@@ -241,6 +241,6 @@ export function getOrderById(orderId) {
 
   return {
     types: [GET_ORDER_LOAD, GET_ORDER_SUCCESS, GET_ORDER_FAIL],
-    promise: (client) => client.get('/api/v1/orders/' + orderId)
+    promise: (client) => client.get('/apiTicket/v1/orders/' + orderId)
   };
 }

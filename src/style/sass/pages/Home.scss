@@ -1,3 +1,5 @@
+@import "../global.scss";
+
 $cyan: #33e0ff;
 $humility: #777;
 
@@ -11,6 +13,7 @@ $humility: #777;
   padding: 40px 20px;
   color: white;
   text-align: center;
+  background-color: $gray;
   .logo {
     $size: 200px;
     margin: auto;

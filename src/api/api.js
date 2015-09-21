@@ -15,6 +15,7 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 
+// 只有server side才會進來？
 export default function api() {
   return new Promise((resolve) => {
     app.use((req, res) => {

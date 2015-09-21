@@ -101,6 +101,9 @@ const getOrderData = {
 */
 export default function orders(req) {
 
+
+  //console.log('#####Get Request from Jmeter!!');
+
   const method = req.method;
 
 
@@ -113,6 +116,7 @@ export default function orders(req) {
     const orderId = req.url.substr(11);
     data = getOrderData[orderId]
   }
+
 
 
   return new Promise((resolve, reject) => {

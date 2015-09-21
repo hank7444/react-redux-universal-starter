@@ -15,29 +15,10 @@ import PrettyError from 'pretty-error';
 
 const pretty = new PrettyError();
 const app = new Express();
-const proxyLocal = httpProxy.createProxyServer({
+const proxy = httpProxy.createProxyServer({
   target: 'http://localhost:' + config.apiPort
 });
 
-
-const proxyTicketApi = httpProxy.createProxyServer((function() {
-  
-  let target = 'http://192.168.1.39:5001';
-  
-  if (config.debug) {
-    target = 'http://localhost:' + config.apiPort
-  }
-
-  return {
-    target: target
-  }
-})());
-
-/*
-const proxyTicketApi = httpProxy.createProxyServer({
-  target: 'http://192.168.1.39:5001'
-});
-*/
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
@@ -49,19 +30,19 @@ app.use(require('serve-static')(path.join(__dirname, '..', 'static')));
 
 // 如果要打不同的api, 可能這邊就要用httpProxy來做中轉
 app.use('/api', (req, res) => {
-  proxyLocal.web(req, res);
+  proxy.web(req, res);
 });
-
 
 app.use('/apiTicket', (req, res) => {
-  proxyTicketApi.web(req, res);
+  proxy.web(req, res);
 });
+
 
 
 // added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
-proxyLocal.on('error', (error, req, res) => {
+proxy.on('error', (error, req, res) => {
   let json;
-  console.log('proxy error', error);
+  //console.log('proxy error', error);
   if (!res.headersSent) {
     res.writeHead(500, {'content-type': 'application/json'});
   }

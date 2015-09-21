@@ -1,6 +1,13 @@
 import superagent from 'superagent';
 import config from './config';
 
+
+// 外部API位置Hash
+var apiHash = config.debug ? {} : {
+  'apiTicket': 'http://192.168.1.177:5001'
+};
+
+
 /*
  * This silly underscore is here to avoid a mysterious "ReferenceError: ApiClient is not defined" error.
  * See Issue #14. https://github.com/erikras/react-redux-universal-hot-example/issues/14
@@ -13,10 +20,20 @@ class ApiClient_ {
       forEach((method) => {
         this[method] = (path, options) => {
           return new Promise((resolve, reject) => {
-            const request = superagent[method](this.formatUrl(path));
+
+
+            //console.log('path', path);
+            const matcher = path.split('?')[0].split('/').slice(1);
+            const domain = apiHash[matcher[0]];
+            const request = superagent[method](this.formatUrl(path, domain));
+
             if (options && options.params) {
               request.query(options.params);
             }
+
+            //console.log('##### inside API Client!!');
+            request.set('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.b0dWTEZvSTgxQk5xcnQ1N2RobGFyM2dYQitnMTFjbEYwUW9FVGVKRTJ5Z1Bxb0Q2UU95ZUx2ZTYvM0Y1YXcrZGZYY2NIWUNwMS9xdGc1U2tqK3JtQUdIcGh0VnRPd21kM1RhejEwdjVYYWhCWTJaVWdITzIxTjY1T0ZzOUdNZmQ5N09SejhBc2x3ZXRoWURxbW10M1JrNmlZK1JTZG91ZEVJaFgyYUdqUXArTzJZWVhZVEFuWVlyL0JIRTFlNTl3ME11ZzhtZ0JLaEZhMTYzSFc4K0VoK2dERnlySGU2c3NvTWE3dkhjcFY0ND0.Ce0Z4mlAJ8ofd0ZOtA3QnzSPFyqXRnZ77B0EA98CWsM');
+
             if (__SERVER__) {
               if (req.get('cookie')) {
                 request.set('cookie', req.get('cookie'));
@@ -41,21 +58,16 @@ class ApiClient_ {
   }
 
   /* This was originally a standalone function outside of this class, but babel kept breaking, and this fixes it  */
-  formatUrl(path) {
+  formatUrl(path, domain) {
 
     const adjustedPath = path[0] !== '/' ? '/' + path : path;
+    const defaultDomain = 'http://localhost:' + config.port;
+    const adjustedDomain = domain || defaultDomain;
 
-
-    // 如果是server render, 呼叫這個位置, 媽的搞好久...作者幹嘛直接連到3030!!
-    if (__SERVER__) {
-
-      //console.log('http://localhost:' + config.port + adjustedPath);
-      // Prepend host and port of the API server to the path.
-      return 'http://localhost:' + config.port + adjustedPath;
+    if (adjustedDomain !== defaultDomain || __SERVER__) {
+      return adjustedDomain + adjustedPath;
     }
-    // Prepend `/api` to relative URL, to proxy to API server.
     return adjustedPath;
-
   }
 }
 const ApiClient = ApiClient_;

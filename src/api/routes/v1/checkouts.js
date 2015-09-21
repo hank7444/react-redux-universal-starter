@@ -55,10 +55,6 @@ const initialCheckouts = {
 */
 export default function checkouts(req, params) {
 
-  console.log('#####:', params);
-  console.log('orderId:', params[0]);
-  console.log('payment:', params[1]);
-
   return new Promise((resolve, reject) => {
     // make async call to database
     resolve(initialCheckouts);

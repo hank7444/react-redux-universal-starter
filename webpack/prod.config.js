@@ -78,7 +78,7 @@ module.exports = {
           warnings: false
         }
     }),
-
+    // 如果這邊沒用development, 沒用ExtractTextPlugin會掛掉@@
     webpackIsomorphicToolsPlugin
   ]
 };

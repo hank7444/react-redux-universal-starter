@@ -62,12 +62,13 @@ export default class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
+    /*
     console.log('this.props: ', this.props);
     console.log('nextProps: ', nextProps);
 
     console.log('this.props.user: ', this.props.user);
     console.log('nextProps.user: ', nextProps.user);
+    */
 
     //console.log('this.props.tickets.goStep3:', this.props.tickets.goStep3);
     //console.log('nextProps.tickets.goStep3:', nextProps.tickets.goStep3);
@@ -78,16 +79,16 @@ export default class App extends Component {
       this.context.router.transitionTo('/loginSuccess');
     } 
     else if (this.props.user && !nextProps.user) {
-      console.log('GOGOGOGO!!!! logOut');
+      //console.log('GOGOGOGO!!!! logOut');
       // logout
       this.context.router.transitionTo('/');
     }
     else if (!this.props.tickets.orderId && nextProps.tickets.orderId) {
-       console.log('GOGOGOGO!!!!');
+       //console.log('GOGOGOGO!!!!');
        this.context.router.transitionTo('/TicketStep2/' + nextProps.tickets.orderId);
     }
     else if (!this.props.tickets.goStep3 && nextProps.tickets.goStep3) {
-      console.log('GOGOGOGO STEP3!!!!');
+      //console.log('GOGOGOGO STEP3!!!!');
       this.context.router.transitionTo('/TicketStep3');
     }
 
