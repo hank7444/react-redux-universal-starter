@@ -6,7 +6,7 @@ import React from 'react';
 import BrowserHistory from 'react-router/lib/BrowserHistory';
 import Location from 'react-router/lib/Location';
 import queryString from 'query-string';
-import configureStore from './store/configureStore';
+import configureStore from './redux/configureStore';
 import ApiClient from './helpers/ApiClient';
 import universalRouter from './helpers/universalRouter';
 
@@ -14,7 +14,7 @@ import universalRouter from './helpers/universalRouter';
 // global webpack引入style請放在這裡
 
 import './style/sass/global.scss';
-//import './style/css/test.css'; // css import會有問題...
+import './style/css/test.css'; // css import會有問題...
 
 const history = new BrowserHistory();
 const client = new ApiClient();

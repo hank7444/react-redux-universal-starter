@@ -6,7 +6,7 @@ import favicon from 'serve-favicon';
 import compression from 'compression';
 import httpProxy from 'http-proxy';
 import path from 'path';
-import configureStore from './store/configureStore';
+import configureStore from './redux/configureStore';
 import ApiClient from './helpers/ApiClient';
 import universalRouter from './helpers/universalRouter';
 import Html from './helpers/Html';
