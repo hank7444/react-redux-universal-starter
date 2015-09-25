@@ -3,7 +3,8 @@ import config from '../config';
 
 // 外部API位置Hash
 var apiHash = config.debug ? {} : {
-  'apiTicket': 'http://192.168.1.177:5001'
+  //'apiTicket': 'http://192.168.1.177:5001'
+  'apiTicket': 'rocket-win.cloudapp.net:5001'
 };
 
 /*
