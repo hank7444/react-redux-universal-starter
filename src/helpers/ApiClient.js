@@ -2,9 +2,9 @@ import superagent from 'superagent';
 import config from '../config';
 
 // 外部API位置Hash
-var apiHash = config.debug ? {} : {
+var apiRootHash = config.debug ? {} : {
   //'apiTicket': 'http://192.168.1.177:5001'
-  'apiTicket': 'rocket-win.cloudapp.net:5001'
+  'apiTicket': 'http://rocket-win.cloudapp.net:5001'
 };
 
 /*
@@ -21,8 +21,7 @@ class ApiClient_ {
           return new Promise((resolve, reject) => {
 
             const matcher = path.split('?')[0].split('/').slice(1);
-            const domain = apiHash[matcher[0]];
-            const request = superagent[method](this.formatUrl(path, domain));
+            const request = superagent[method](this.formatUrl(path, matcher[0]));
 
             if (options && options.params) {
               request.query(options.params);
@@ -53,11 +52,21 @@ class ApiClient_ {
   }
 
   /* This was originally a standalone function outside of this class, but babel kept breaking, and this fixes it  */
-  formatUrl(path, domain) {
+  formatUrl(path, apiRoot) {
 
-    const adjustedPath = path[0] !== '/' ? '/' + path : path;
+    const domain = apiRootHash[apiRoot];
+    let adjustedPath = path[0] !== '/' ? '/' + path : path;
     const defaultDomain = 'http://localhost:' + config.port;
     const adjustedDomain = domain || defaultDomain;
+
+
+    if (domain) {
+      adjustedPath = adjustedPath.replace('/' + apiRoot, '');
+    }
+
+    console.log('path', path);
+    console.log('adjustedPath', adjustedPath);
+
 
     if (adjustedDomain !== defaultDomain || __SERVER__) {
       return adjustedDomain + adjustedPath;

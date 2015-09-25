@@ -128,7 +128,8 @@ export default function reducer(state = initialState, action = {}) {
         orderId: action.result.id,
         orderData: action.result,
         loading: false,
-        loaded: true
+        loaded: true,
+        error: null
       };
 
     case GET_ORDER_FAIL: 

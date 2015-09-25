@@ -1,6 +1,7 @@
 @import "compass";
 //@import "bootstrap/dist/css/bootstrap.css";
 
+$white: #ffffff;
 $red: #ff0000;
 $gray: #f0f0f0;
 
@@ -9,4 +10,41 @@ h1 {
 	font-size: 100px;
 	@include border-radius(10px);
 	background-color: black;
+}
+
+h2 {
+	font-size: 80px;
+}
+
+
+
+// fuck! 只有tag不會被改名, class都會自動加上hash耶, 難怪都吃不到
+
+/*
+nav .navbar-brand___dwl-J {
+  color: red;
+}
+*/
+nav {
+	.navbar-brand {
+		color: $white;
+	}
+}
+
+.navbar-default {
+  background-color: #0088d2;
+}
+
+.navbar-default {
+  .navbar-nav {
+    > li {
+      > a {
+        color: $white
+      } 
+    }  
+  }
+}
+
+.navbar-fixed-top {
+	border: 0
 }

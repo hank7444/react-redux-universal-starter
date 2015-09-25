@@ -34,14 +34,22 @@ onChange={::this.handleEdit(param1, param2, ...)}
 
 export default class TicketStep3 extends Component {
 
+  
 
   render() {
 
+    const thankyou = require('../../img/thankyou.png');
+    const containerStyle =  {
+      'text-align': 'center'
+    };
+
     return (
 
-      <div className="container">
+      <div className="container" style={containerStyle}>
         
-        <h1>Thank you!</h1>
+        <h2>Thank you!</h2>
+
+          <img src={thankyou} width="400"></img>
       
       </div>
     );

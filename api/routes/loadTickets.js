@@ -2,11 +2,11 @@ const initialTickets = {
   eventId: 23,
   data: [{
     id: 8,
-    name: 'VIP Ticket 1',
+    name: '熱舞搖滾區',
     unitPrice: 5
   }, {
     id: 9,
-    name: 'VIP Ticket 2',
+    name: '一般區',
     unitPrice: 10
   }]
 };

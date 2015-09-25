@@ -59,13 +59,20 @@ export default class Ticket extends Component {
   render() {
 
     //console.log('Tickets###:', this.props);
-
+    const banner = require('../../img/banner.jpg');
     const {tickets, editItemNumber} = this.props;
+    const bannerStyle = {
+      'text-align': 'center'
+    };
 
     return (
 
       <div className="container">
-        <h3>測試活動</h3>
+
+        <div style={bannerStyle}>
+          <img src={banner}/>
+        </div>
+        <h3>貢寮海洋音樂祭</h3>
 
 
         {/* 外面至少要有一個html元件不然會壞掉.. */}

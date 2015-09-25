@@ -68,6 +68,8 @@ export default class TicketStep2 extends Component {
     let currency = 0;
     let total = 0;
 
+    console.log('error', error);
+
     if (!error) {
       currency = orderData.amount.currency;
       total = orderData.amount.total;

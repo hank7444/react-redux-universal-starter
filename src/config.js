@@ -6,7 +6,7 @@ module.exports = {
     app: {
       name: 'React Redux Example Development'
     },
-    debug: true
+    debug: false
   },
   production: {
     isProduction: true,

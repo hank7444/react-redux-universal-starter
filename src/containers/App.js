@@ -13,7 +13,6 @@ import '../style/sass/global.scss';
 import {Button} from 'react-bootstrap';
 import styles from '../style/sass/pages/App.scss';
 
-
 /*
 ES6寫法
 @connect(
@@ -107,50 +106,63 @@ export default class App extends Component {
       <div className={styles.app}>
 
         <DocumentMeta {...mataData}/>
+
+
+      
       
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container">
             <Link to="/" className="navbar-brand">
               <div className={styles.brand}/>
-              React-Rocket 大量搶票模組
             </Link>
 
-           {/* nav */}
+           
             <ul className="nav navbar-nav">
-              <li><Link to="/widgets">Widgets</Link></li>
-              <li><Link to="/survey">Survey</Link></li>
-              <li><Link to="/about">About Us</Link></li>
+              <li><Link to="/widgets">資料列表</Link></li>
+              <li><Link to="/survey">測量數據</Link></li>
+              <li><Link to="/about">關於我們</Link></li>
               <li><Link to="/ticket">購買流程</Link></li>
-              {!user && <li><Link to="/login">Login</Link></li>}
+              {!user && <li><Link to="/login">登入</Link></li>}
 
 
-              {user && <li className="logout-link"><a href="/logout" onClick={::this.handleLogout}>Logout</a></li>}
+              {user && <li className="logout-link"><a href="/logout" onClick={::this.handleLogout}>登出</a></li>}
             </ul>
 
             {user && <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.name}</strong>.</p>}
             
+            {/*
             <ul className="nav navbar-nav navbar-right">
               <li>
                 <a href="https://github.com/erikras/react-redux-universal-hot-example"
                    target="_blank" title="View on Github"><i className="fa fa-github"/></a>
               </li>
             </ul>
+            */}
           </div>
         </nav>
+
+
+     
+
+
+
 
         <div className={styles.appContent}>
           {this.props.children}
         </div>
 
+
+        {/*
         <InfoBar/>
 
+       
         <div className="well text-center">
           Have questions? Ask for help <a
           href="https://github.com/erikras/react-redux-universal-hot-example/issues"
           target="_blank">on Github</a> or in the <a
           href="http://www.reactiflux.com/" target="_blank">#react-redux-universal</a> Slack channel.
         </div>
-
+        */}
       </div>
   
     );
