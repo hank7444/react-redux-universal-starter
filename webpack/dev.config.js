@@ -34,15 +34,16 @@ module.exports = {
       { test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', 'babel?stage=0&optional=runtime&plugins=typecheck']},
       //{ test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
       { test: /\.json$/, loader: 'json-loader'},
-      { test: /\.css$/, loader: 'style-loader!css-loader' },
+      
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
       { test: /\.(woff|woff2)$/, loader:"url?prefix=font/&limit=5000" },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" },
-      //{ test: /\.sass$/, loader: 'style!css!sass?indentedSyntax'},
-
-      // ___[hash:base64:5] 這一段會讓產生的css加上hash, 所以必須要用變數方式才能正確吃到css喔@@, 不然就要拿掉...
-      { test: /\.scss/, exclude: /node_modules/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap&includePaths[]=node_modules/compass-mixins/lib'},
+      
+      // &localIdentName=[local]___[hash:base64:5] 這一段會讓產生的css加上hash, 所以必須要用變數方式才能正確吃到css喔@@, 不然就要拿掉...
+      { test: /\.scss/, exclude: /node_modules/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap&includePaths[]=node_modules/compass-mixins/lib'},
+      // 在scss下面就會成功囉!!
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
       { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240'}
     ]
   },

@@ -1,5 +1,7 @@
 @import "compass";
-//@import "bootstrap/dist/css/bootstrap.css";
+
+// 一直失敗引入..
+//@import "~bootstrap/less/bootstrap";
 
 $white: #ffffff;
 $red: #ff0000;
@@ -26,23 +28,39 @@ nav .navbar-brand___dwl-J {
 }
 */
 nav {
+	background-color: blue;
 	.navbar-brand {
 		color: $white;
 	}
 }
 
-.navbar-default {
+:global .navbar-default {
   background-color: #0088d2;
 }
 
-.navbar-default {
+
+
+:global .navbar-default {
   .navbar-nav {
     > li {
       > a {
-        color: $white
+        color: $white;
       } 
     }  
   }
+}
+
+// 只要有父類別為global, 則子項目都為global
+// 如果子類別有特定要指定為local, 要下:local, 如下所示
+/*
+.test .sub-test___2Siym {
+  background-color: red;
+}
+*/
+:global .test {
+	:local .sub-test {
+		background-color: red;
+	}
 }
 
 .navbar-fixed-top {

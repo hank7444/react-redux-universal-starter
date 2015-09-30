@@ -13,8 +13,35 @@ import universalRouter from './helpers/universalRouter';
 // 如果是這樣引入, 在webpack的js未載入時，會沒有bootstrap style
 // global webpack引入style請放在這裡
 
-import './style/sass/global.scss';
-//import './style/css/test.css'; // css import會有問題...
+/*
+不要在這邊將global css放進來，因為無論是sass, css, 都不會依照順序放置
+應該用一個共用的global.sass, 將其他css與sass import進來
+*/
+
+
+//require('./style/css/test2.css');
+//require('./style/css/test.css');
+
+//import './style/sass/global2.scss';
+//import './style/sass/global.scss';
+
+
+
+
+// 噢喔噢 成功了, 改變webpack css-loader順序，在sass-loader下即可
+
+// include node_module/的css
+import "bootstrap/dist/css/bootstrap.css";
+
+import './style/css/test.css';
+import './style/css/test2.css';
+
+
+import './style/sass/globalIndex.scss';
+import './style/sass/global3.scss';
+
+
+
 
 const history = new BrowserHistory();
 const client = new ApiClient();

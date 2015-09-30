@@ -35,12 +35,12 @@ export default class Html extends Component {
 
           <link rel="shortcut icon" href="/favicon.ico" />
 
-
+          {/*
           <link href={cdn + 'twitter-bootstrap/3.3.5/css/bootstrap.css'}
                 media="screen, projection" rel="stylesheet" type="text/css" />
           <link href={cdn + 'font-awesome/4.3.0/css/font-awesome.min.css'}
                 media="screen, projection" rel="stylesheet" type="text/css" />
-    
+          */}
 
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, i) =>

@@ -1,0 +1,16 @@
+/*
+It's important to only prepend it with ~, 
+because ~/ resolves to the home-directory. 
+webpack needs to distinguish between bootstrap and ~bootstrap
+because CSS- and Sass-files have no special syntax for 
+importing relative files. Writing @import "file" is the same as @import "./file";
+*/
+
+// 這樣可以引入css, 不過計算很慢, 裡面其他相對路徑的檔案全都會找不到，不建議
+//@import "~bootstrap/dist/css/bootstrap";
+
+@import "./global.scss";
+@import "./global2.scss";
+//@import "./global3.scss";
+// fuxk! css還是不會照順序, 還是要轉成scss, 不然就要在Html.js裡面用link 引入
+//@import "../css/test.css";

@@ -10,7 +10,7 @@ module.exports = {
   },
   production: {
     isProduction: true,
-    port: 3000,
+    port: 8080,
     apiPort: 3030,
     app: {
       name: 'React Redux Example Production'
