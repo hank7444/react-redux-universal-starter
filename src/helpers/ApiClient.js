@@ -38,8 +38,16 @@ class ApiClient_ {
             }
             request.end((err, res) => {
 
+              //console.log('err', err);
+              //console.log('res', res);
+
               if (err) {
-                reject(res.body || err);
+
+                if (!res) {
+                  err.errorCode = 404
+                }
+
+                reject((res && res.body) || err);
               } else {
 
                 //console.log(res.body);

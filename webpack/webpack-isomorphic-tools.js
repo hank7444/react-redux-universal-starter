@@ -1,19 +1,5 @@
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 
-/*
-為何要用?, 因為Node.js只知道require js modules
-
-It works on the client because Webpack intelligently 
-replaces all the require() calls for you. 
-
-But it wouldn't work on the server because Node.js only knows how to require() 
-javascript modules. What webpack-isomorphic-tools 
-does is it makes the code above work on the server too (and much more), 
-so that you can have your isomorphic (universal) rendering (e.g. React).
-
-*/
-
-
 // see this link for more info on what all of this means
 // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
 module.exports = {
@@ -31,7 +17,7 @@ module.exports = {
       parser: WebpackIsomorphicToolsPlugin.url_loader_parser
     },
     style_modules: {
-      extension: 'scss',
+      extensions: ['less','scss'],
       filter: function(m, regex, options, log) {
         if (!options.development) {
           return regex.test(m.name);

@@ -19,8 +19,13 @@ const STEP2_SUCCESS = 'redux-example/tickets/STEP2_SUCCESS';
 const STEP2_FAIL = 'redux-example/tickets/STEP2_FAIL';
 
 
+// 會出現的prop最好都預先定義好
 const initialState = {
+  orderId: null,
   eventId: null,
+  loading: false,
+  goStep2: false,
+  goStep3: false,
   data: []
 };
 
@@ -28,7 +33,7 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
 
 
-  //console.log('action:', action);
+  console.log('action:', action);
 
 
   /*
@@ -41,8 +46,6 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loading: true,
-        goStep2: false,
-        goStep3: false,
         orderId: null,
         //data: null 加這個會導致Load時[].map無資料的錯誤，所以要拿掉，讓react用之前的資料
       };

@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React, {Component, PropTypes} from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import DocumentMeta from 'react-document-meta';
-import { initialize } from 'redux-form';
-import { SurveyForm } from 'components';
+import {initialize} from 'redux-form';
+import {SurveyForm} from 'components';
 
 @connect(
   () => ({}),
@@ -12,6 +12,19 @@ import { SurveyForm } from 'components';
 export default class Survey extends Component {
   static propTypes = {
     initialize: PropTypes.func.isRequired
+  }
+
+  handleSubmit(data) {
+    window.alert('Data submitted! ' + JSON.stringify(data));
+    this.props.initialize('survey', {});
+  }
+
+  handleInitialize() {
+    this.props.initialize('survey', {
+      name: 'Little Bobby Tables',
+      email: 'bobby@gmail.com',
+      occupation: 'Redux Wizard'
+    });
   }
 
   render() {
@@ -59,18 +72,4 @@ export default class Survey extends Component {
       </div>
     );
   }
-
-  handleSubmit(data) {
-    window.alert('Data submitted! ' + JSON.stringify(data));
-    this.props.initialize('survey', {});
-  }
-
-  handleInitialize() {
-    this.props.initialize('survey', {
-      name: 'Little Bobby Tables',
-      email: 'bobby@gmail.com',
-      occupation: 'Redux Wizard'
-    });
-  }
 }
-

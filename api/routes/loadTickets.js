@@ -21,6 +21,7 @@ export default function loadTickets(req) {
     //console.log('aaa:', aaa);
     
     resolve(initialTickets);
+
     /*
     setTimeout(() => {
       if (Math.floor(Math.random() * 3) === 0) {

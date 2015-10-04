@@ -58,12 +58,16 @@ export default class Ticket extends Component {
 
   render() {
 
+
+
     //console.log('Tickets###:', this.props);
     const banner = require('../../img/banner.jpg');
-    const {tickets, editItemNumber} = this.props;
+    const {tickets, editItemNumber, error} = this.props;
     const bannerStyle = {
-      'text-align': 'center'
+      'textAlign': 'center'
     };
+
+    console.log('error from Ticket' , error);
 
     return (
 
@@ -78,7 +82,7 @@ export default class Ticket extends Component {
         {/* 外面至少要有一個html元件不然會壞掉.. */}
         {tickets.error && 
         <div className="alert alert-danger alert-dismissible">
-          {tickets.error.ErrorCode}
+          {tickets.error.errorCode}
         </div>}
 
         <table className="table">

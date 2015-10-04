@@ -4,13 +4,9 @@
 import 'babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import BrowserHistory from 'react-router/lib/BrowserHistory';
-//import Location from 'react-router/lib/Location';
-
 import createHistory from 'history/lib/createBrowserHistory';
 import createLocation from 'history/lib/createLocation';
-//import queryString from 'query-string';
-import configureStore from './redux/configureStore';
+import createStore from './redux/create';
 import ApiClient from './helpers/ApiClient';
 import universalRouter from './helpers/universalRouter';
 
@@ -35,7 +31,7 @@ import universalRouter from './helpers/universalRouter';
 // 噢喔噢 成功了, 改變webpack css-loader順序，在sass-loader下即可
 
 // include node_module/的css
-import "bootstrap/dist/css/bootstrap.css";
+//import "bootstrap/dist/css/bootstrap.css";
 
 import './style/css/test.css';
 import './style/css/test2.css';
@@ -51,7 +47,7 @@ const history = createHistory();
 const client = new ApiClient();
 
 const dest = document.getElementById('content');
-const store = configureStore(client, window.__data);
+const store = createStore(client, window.__data);
 const location = createLocation(document.location.pathname, document.location.search);
 
 const render = (loc, hist, str, preload) => {

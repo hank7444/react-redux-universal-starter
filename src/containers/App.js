@@ -10,8 +10,6 @@ import { createTransitionHook } from 'helpers/universalRouter';
 import mataData from './utilities/meta';
 
 import '../style/sass/global.scss';
-import {Button} from 'react-bootstrap';
-
 
 import styles from '../style/sass/pages/App.scss';
 
@@ -77,23 +75,26 @@ export default class App extends Component {
     //console.log('this.props.tickets.goStep3:', this.props.tickets.goStep3);
     //console.log('nextProps.tickets.goStep3:', nextProps.tickets.goStep3);
 
+    //console.log('this.props.tickets:', this.props.tickets);
+    //console.log('nextProps.tickets:', nextProps.tickets);
+
     // 導頁統一在這裡管理
     if (!this.props.user && nextProps.user) {
       // login
-      this.context.router.transitionTo('/loginSuccess');
+      this.props.history.pushState(null, '/loginSuccess');
     } 
     else if (this.props.user && !nextProps.user) {
       //console.log('GOGOGOGO!!!! logOut');
       // logout
-      this.context.router.transitionTo('/');
+      this.props.history.pushState(null, '/');
     }
     else if (!this.props.tickets.orderId && nextProps.tickets.orderId) {
-       //console.log('GOGOGOGO!!!!');
-       this.context.router.transitionTo('/TicketStep2/' + nextProps.tickets.orderId);
+       console.log('GOGOGOGO!!!!');
+       this.props.history.pushState(null, '/ticketStep2/' + nextProps.tickets.orderId);
     }
     else if (!this.props.tickets.goStep3 && nextProps.tickets.goStep3) {
       //console.log('GOGOGOGO STEP3!!!!');
-      this.context.router.transitionTo('/TicketStep3');
+      this.props.history.pushState(null, '/ticketStep3');
     }
 
   }
@@ -104,11 +105,6 @@ export default class App extends Component {
     router.removeTransitionHook(this.transitionHook);
   }
   */
-
-  handleLogout(event) {
-    event.preventDefault();
-    this.props.logout();
-  }
 
   // 測試顯示一進到頁面，server sider render 初始化使用
   static fetchData(store) {
@@ -121,6 +117,11 @@ export default class App extends Component {
       promises.push(store.dispatch(loadAuth()));
     }
     return Promise.all(promises);
+  }
+
+  handleLogout(event) {
+    event.preventDefault();
+    this.props.logout();
   }
 
   render() {
@@ -167,7 +168,7 @@ export default class App extends Component {
         <div className={styles.appContent}>
           {this.props.children}
         </div>
-
+        {/*
         <InfoBar/>       
         <div className="well text-center">
           Have questions? Ask for help <a
@@ -175,6 +176,7 @@ export default class App extends Component {
           target="_blank">on Github</a> or in the <a
           href="http://www.reactiflux.com/" target="_blank">#react-redux-universal</a> Slack channel.
         </div>
+        */}
   
       </div>
   

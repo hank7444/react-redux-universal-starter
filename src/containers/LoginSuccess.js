@@ -20,6 +20,8 @@ class LoginSuccess extends Component {
 
     console.log('enter loginSuceess');
     const {user, logout} = this.props;
+
+    console.log('user', user);
     return (user &&
       <div className="container">
         <h1>Login Success</h1>

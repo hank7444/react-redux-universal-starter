@@ -7,6 +7,7 @@ import { TicketItem } from 'components';
 
 @connect(
   state => ({
+    goStep3: state.tickets.goStep3,
     orderId: state.tickets.orderId,
     orderData: state.tickets.orderData,
     error: state.tickets.error,
@@ -34,16 +35,22 @@ onChange={::this.handleEdit(param1, param2, ...)}
 
 export default class TicketStep3 extends Component {
 
-  
+  static propTypes = {
+    goStep3: PropTypes.bool,
+  }
 
+  // 判斷時, 不可是undefined, 要為null, 不然react會出錯
   render() {
 
+    const {goStep3} = this.props;
     const thankyou = require('../../img/thankyou.png');
     const containerStyle =  {
-      'text-align': 'center'
+      'textAlign': 'center'
     };
 
-    return (
+    console.log('goStep3', goStep3);
+
+    return (goStep3 && 
 
       <div className="container" style={containerStyle}>
         
@@ -54,6 +61,5 @@ export default class TicketStep3 extends Component {
       </div>
     );
   }
-
 
 }

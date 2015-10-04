@@ -1,6 +1,5 @@
 import Express from 'express';
 import React from 'react';
-//import Location from 'react-router/lib/Location';
 import ReactDOM from 'react-dom/server';
 import createLocation from 'history/lib/createLocation';
 import config from './config';
@@ -8,7 +7,7 @@ import favicon from 'serve-favicon';
 import compression from 'compression';
 import httpProxy from 'http-proxy';
 import path from 'path';
-import configureStore from './redux/configureStore';
+import createStore from './redux/create';
 import ApiClient from './helpers/ApiClient';
 import universalRouter from './helpers/universalRouter';
 import Html from './helpers/Html';
@@ -60,7 +59,7 @@ app.use((req, res) => {
     webpackIsomorphicTools.refresh();
   }
   const client = new ApiClient(req);
-  const store = configureStore(client);
+  const store = createStore(client);
   const location = createLocation(req.path, req.query);
 
   const hydrateOnClient = function() {

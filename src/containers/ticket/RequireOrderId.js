@@ -1,32 +1,27 @@
-import { Component } from 'react';
+import {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+
+@connect(state => ({orderId: state.tickets.orderId}))
 
 export default class RequireOrder extends Component {
-  static onEnter(store) {
-    return (nextState, transition) => {
 
-      //console.log('store.getState()', store.getState());
-      //console.log('transition', transition);
+  static propTypes = {
+    orderId: PropTypes.string,
+    history: PropTypes.object.isRequired
+  }
 
-      const { tickets: { orderId }} = store.getState();
-
-
-      const orderIdFromRouting = nextState.params.orderId;
-
-
-      console.log('orderId', orderId);
-      console.log('orderIdFromRouting', orderIdFromRouting);
-
-
-
-
-      if (!orderId && !orderIdFromRouting) {
-        // oops, not logged in, so can't be here!
-        transition.to('/ticket');
-      }
-    };
+  componentWillMount() {
+    const {history, orderId} = this.props;
+    if (!orderId) {
+      console.log('GO BACK TICKET!');
+      setTimeout(() => {
+        history.replaceState(null, '/ticket');
+      });
+    }
   }
 
   render() {
     return this.props.children;
   }
 }
+
