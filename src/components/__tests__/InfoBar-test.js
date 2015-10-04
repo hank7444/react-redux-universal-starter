@@ -1,10 +1,11 @@
-import React from 'react/addons';
-import {expect} from 'chai';
-import InfoBar from '../InfoBar';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {renderIntoDocument} from 'react-addons-test-utils';
+import { expect} from 'chai';
+import { InfoBar } from 'components';
 import { Provider } from 'react-redux';
 import createStore from 'redux/create';
-import ApiClient from 'ApiClient';
-const { TestUtils } = React.addons;
+import ApiClient from 'helpers/ApiClient';
 const client = new ApiClient();
 
 describe('InfoBar', () => {
@@ -21,15 +22,15 @@ describe('InfoBar', () => {
   };
 
   const store = createStore(client, mockStore);
-  const renderer = TestUtils.renderIntoDocument(
+  const renderer = renderIntoDocument(
     <Provider store={store} key="provider">
-      {() => <InfoBar/>}
+      <InfoBar/>
     </Provider>
   );
-  const dom = React.findDOMNode(renderer);
+  const dom = ReactDOM.findDOMNode(renderer);
 
   it('should render correctly', () => {
-    expect(renderer).to.be.ok;
+    return expect(renderer).to.be.ok;
   });
 
   it('should render with correct value', () => {
@@ -43,7 +44,7 @@ describe('InfoBar', () => {
   });
 
   it('should render the correct className', () => {
-    const styles = require('../InfoBar.scss');
+    const styles = require('style/sass/components/InfoBar.scss');
     expect(styles.infoBar).to.be.a('string');
     expect(dom.className).to.include(styles.infoBar);
   });

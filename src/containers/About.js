@@ -1,14 +1,22 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import DocumentMeta from 'react-document-meta';
 import { MiniInfoBar } from 'components';
 
 export default class About extends Component {
+  state = {
+    showKitten: false
+  }
+
+  handleToggleKitten() {
+    this.setState({showKitten: !this.state.showKitten});
+  }
+
   render() {
     const {showKitten} = this.state;
     const kitten = require('../img/kitten.jpg');
     return (
       <div className="container">
-        <h1>About Us 1234</h1>
+        <h1>About Us</h1>
         <DocumentMeta title="React Redux Example: About Us"/>
 
         <p>This project was orginally created by Erik Rasmussen
@@ -39,13 +47,5 @@ export default class About extends Component {
         {showKitten && <div><img src={kitten}/></div>}
       </div>
     );
-  }
-
-  handleToggleKitten() {
-    this.setState({showKitten: !this.state.showKitten});
-  }
-
-  state = {
-    showKitten: false
   }
 }

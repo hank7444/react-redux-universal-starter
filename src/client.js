@@ -3,10 +3,10 @@
  */
 import 'babel/polyfill';
 import React from 'react';
-import BrowserHistory from 'react-router/lib/BrowserHistory';
-import Location from 'react-router/lib/Location';
-import queryString from 'query-string';
-import configureStore from './redux/configureStore';
+import ReactDOM from 'react-dom';
+import createHistory from 'history/lib/createBrowserHistory';
+import createLocation from 'history/lib/createLocation';
+import createStore from './redux/create';
 import ApiClient from './helpers/ApiClient';
 import universalRouter from './helpers/universalRouter';
 
@@ -31,7 +31,7 @@ import universalRouter from './helpers/universalRouter';
 // 噢喔噢 成功了, 改變webpack css-loader順序，在sass-loader下即可
 
 // include node_module/的css
-import "bootstrap/dist/css/bootstrap.css";
+//import "bootstrap/dist/css/bootstrap.css";
 
 import './style/css/test.css';
 import './style/css/test2.css';
@@ -43,36 +43,44 @@ import './style/sass/global3.scss';
 
 
 
-const history = new BrowserHistory();
+const history = createHistory();
 const client = new ApiClient();
 
 const dest = document.getElementById('content');
-const store = configureStore(client, window.__data);
-const search = document.location.search;
-const query = search && queryString.parse(search);
-const location = new Location(document.location.pathname, query);
+const store = createStore(client, window.__data);
+const location = createLocation(document.location.pathname, document.location.search);
 
-universalRouter(location, history, store)
-  .then(({component}) => {
+const render = (loc, hist, str, preload) => {
+  return universalRouter(loc, hist, str, preload)
+    .then(({component}) => {
 
-    // __DEVTOOLS__ 這些webpack的設定只有在client端有效啊!!!
-    if (__DEVTOOLS__) {
-      const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
-      console.info('You will see a "Warning: React attempted to reuse markup in a container but the checksum was' +
-        ' invalid." message. That\'s because the redux-devtools are enabled.');
-      React.render(<div>
-        {component}
-        <DebugPanel top right bottom key="debugPanel">
-          <DevTools store={store} monitor={LogMonitor}/>
-        </DebugPanel>
-      </div>, dest);
-    } else {
-      React.render(component, dest);
-    }
-  }, (error) => {
-    console.error(error);
-  });
+      ReactDOM.render(component, dest);
 
+      // __DEVTOOLS__ 這些webpack的設定只有在client端有效啊!!!
+      if (__DEVTOOLS__) {
+        const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
+        console.info('You will see a "Warning: React attempted to reuse markup in a container but the checksum was' +
+          ' invalid." message. That\'s because the redux-devtools are enabled.');
+        ReactDOM.render(<div>
+          {component}
+          <DebugPanel top right bottom key="debugPanel">
+            <DevTools store={store} monitor={LogMonitor}/>
+          </DebugPanel>
+        </div>, dest);
+      }
+    }, (error) => {
+      console.error(error);
+    });
+};
+
+history.listen(() => {});
+
+history.listenBefore((loc, callback) => {
+  render(loc, history, store, true)
+    .then((callback));
+});
+
+render(location, history, store);
 
 if (process.env.NODE_ENV !== 'production') {
   window.React = React; // enable debugger

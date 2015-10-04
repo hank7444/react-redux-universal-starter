@@ -101,11 +101,7 @@ const getOrderData = {
 */
 export default function orders(req) {
 
-
-  console.log('#####Get Request from Jmeter!!');
-
   const method = req.method;
-
 
   let data = null;
 
@@ -127,7 +123,10 @@ export default function orders(req) {
     if (data) {
       resolve(data);
     } else {
-      reject('The order Id is illegal!');
+      reject({
+        errorCode: 100,
+        message: 'The order Id is illegal!'
+      });
     }
 
   });

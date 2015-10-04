@@ -1,3 +1,4 @@
+var fs = require('fs');
 var path = require('path');
 var webpack = require('webpack');
 var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
@@ -13,6 +14,28 @@ var port = parseInt(process.env.PORT) + 1 || 3001;
 // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools'));
+
+var babelrc = fs.readFileSync('./.babelrc');
+var babelLoaderQuery = {};
+
+try {
+  babelLoaderQuery = JSON.parse(babelrc);
+} catch (err) {
+  console.error('==>     ERROR: Error parsing your .babelrc.');
+  console.error(err);
+}
+
+babelLoaderQuery.plugins = babelLoaderQuery.plugins || [];
+babelLoaderQuery.plugins.push('react-transform');
+babelLoaderQuery.extra = babelLoaderQuery.extra || {};
+babelLoaderQuery.extra['react-transform'] = {
+  transforms: [{
+    transform: 'react-transform-hmr',
+    imports: ['react'],
+    locals: ['module']
+  }]
+};
+
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -31,7 +54,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', 'babel?stage=0&optional=runtime&plugins=typecheck']},
+      { test: /\.js$/, exclude: /node_modules/, loaders: ['babel?' + JSON.stringify(babelLoaderQuery)]},
       //{ test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
       { test: /\.json$/, loader: 'json-loader'},
       
@@ -58,7 +81,7 @@ module.exports = {
   plugins: [
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.IgnorePlugin(/\.json$/),
+    new webpack.IgnorePlugin(/webpack-stats\.json$/),
     new webpack.DefinePlugin({
       __CLIENT__: true, 
       __SERVER__: false, // 控制API的連接位置

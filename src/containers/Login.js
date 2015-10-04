@@ -14,13 +14,25 @@ import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 
 
 
-class Login extends Component {
+export default class Login extends Component {
 
-  
   static propTypes = {
     user: PropTypes.object,
     login: PropTypes.func,
     logout: PropTypes.func
+  }
+
+  static fetchData(store) {
+    if (!isAuthLoaded(store.getState())) {
+      return store.dispatch(loadAuth());
+    }
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const input = this.refs.username;
+    this.props.login(input.value);
+    input.value = '';
   }
   
 
@@ -53,19 +65,6 @@ class Login extends Component {
         }
       </div>
     );
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    const input = this.refs.username.getDOMNode();  // need for getDOMNode() call going away in React 0.14
-    this.props.login(input.value);
-    input.value = '';
-  }
-
-  static fetchData(store) {
-    if (!isAuthLoaded(store.getState())) {
-      return store.dispatch(loadAuth());
-    }
   }
 }
 

@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import { connectReduxForm } from 'redux-form';
+import React, {Component, PropTypes} from 'react';
+import {connectReduxForm} from 'redux-form';
 import surveyValidation from './surveyValidation';
 
 function asyncValidate(data) {

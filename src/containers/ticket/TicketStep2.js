@@ -13,6 +13,7 @@ import { TicketItem } from 'components';
 */
 @connect(
   state => ({
+    goStep2: state.tickets.goStep2,
     orderId: state.tickets.orderId,
     orderData: state.tickets.orderData,
     error: state.tickets.error,
@@ -42,6 +43,11 @@ onChange={::this.handleEdit(param1, param2, ...)}
 
 export default class TicketStep2 extends Component {
 
+
+  static fetchData(store, params, query) {
+    return store.dispatch(ticketActions.getOrderById(params.orderId));
+  }
+
   handleStep2Submit(e) {
     e.preventDefault();
 
@@ -60,9 +66,7 @@ export default class TicketStep2 extends Component {
   render() {
 
     
-    const {orderData} = this.props;
-    const {error} = this.props;
-    
+    const {goStep2, orderData, error} = this.props;
 
     // 有沒有比較好的方法可以驗證物件屬性是否存在呢?
     let currency = 0;
@@ -70,14 +74,16 @@ export default class TicketStep2 extends Component {
 
     console.log('error', error);
 
-    if (!error) {
+    if (goStep2 && !error) {
       currency = orderData.amount.currency;
       total = orderData.amount.total;
     }
 
+
+
     //console.log('TicketStep2###:', orderData);
 
-    return (
+    return (goStep2 && 
 
       <div className="container">
 
@@ -138,10 +144,7 @@ export default class TicketStep2 extends Component {
   }
 
 
-  static fetchData(store, params, query) {
 
-    return store.dispatch(ticketActions.getOrderById(params.orderId));
-  }
 
 
 }
