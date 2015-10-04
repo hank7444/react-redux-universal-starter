@@ -1,6 +1,8 @@
 import Express from 'express';
 import React from 'react';
-import Location from 'react-router/lib/Location';
+//import Location from 'react-router/lib/Location';
+import ReactDOM from 'react-dom/server';
+import createLocation from 'history/lib/createLocation';
 import config from './config';
 import favicon from 'serve-favicon';
 import compression from 'compression';
@@ -11,9 +13,11 @@ import ApiClient from './helpers/ApiClient';
 import universalRouter from './helpers/universalRouter';
 import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
+import http from 'http';
 
 const pretty = new PrettyError();
 const app = new Express();
+const server = new http.Server(app);
 const proxy = httpProxy.createProxyServer({
   target: 'http://localhost:' + config.apiPort
 });
@@ -57,39 +61,40 @@ app.use((req, res) => {
   }
   const client = new ApiClient(req);
   const store = configureStore(client);
-  const location = new Location(req.path, req.query);
+  const location = createLocation(req.path, req.query);
 
   const hydrateOnClient = function() {
     res.send('<!doctype html>\n' +
-      React.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div/>} store={store}/>));
+      ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div/>} store={store}/>));
   }
 
   // 如果將server render關掉時
   if (__DISABLE_SSR__) {
     hydrateOnClient();
-  } else {
-    universalRouter(location, undefined, store)
-      .then(({component, transition, isRedirect}) => {
-        if (isRedirect) {
-          res.redirect(transition.redirectInfo.pathname);
-          return;
-        }
-        res.send('<!doctype Html>\n' +
-          React.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
-      })
-      .catch((error) => {
-        if (error.redirect) {
-          res.redirect(error.redirect);
-          return;
-        }
-        console.error('ROUTER ERROR:', pretty.render(error));
-        hydrateOnClient();
-      });
+    return;
   }
+  universalRouter(location, undefined, store, true)
+    .then(({component, redirectLocation}) => {
+      if (redirectLocation) {
+        res.redirect(redirectLocation.pathname + redirectLocation.search);
+        return;
+      }
+      res.send('<!doctype Html>\n' +
+        ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
+    })
+    .catch((error) => {
+      if (error.redirect) {
+        res.redirect(error.redirect);
+        return;
+      }
+      console.error('ROUTER ERROR:', pretty.render(error));
+      hydrateOnClient();
+    });
+  
 });
 
 if (config.port) {
-  app.listen(config.port, (err) => {
+  server.listen(config.port, (err) => {
     if (err) {
       console.error(err);
     }

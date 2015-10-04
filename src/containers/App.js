@@ -48,19 +48,22 @@ export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
-    logout: PropTypes.func.isRequired
+    logout: PropTypes.func.isRequired,
+    history: PropTypes.object
   }
 
   static contextTypes = {
-    router: PropTypes.object.isRequired,
+    //router: PropTypes.object.isRequired,
     store: PropTypes.object.isRequired
   };
 
+  /*
   componentWillMount() {
     const {router, store} = this.context;
     this.transitionHook = createTransitionHook(store);
     router.addTransitionHook(this.transitionHook);
   }
+  */
 
   componentWillReceiveProps(nextProps) {
     /*
@@ -95,9 +98,29 @@ export default class App extends Component {
 
   }
 
+  /*
   componentWillUnmount() {
     const {router} = this.context;
     router.removeTransitionHook(this.transitionHook);
+  }
+  */
+
+  handleLogout(event) {
+    event.preventDefault();
+    this.props.logout();
+  }
+
+  // 測試顯示一進到頁面，server sider render 初始化使用
+  static fetchData(store) {
+    const promises = [];
+
+    if (!isInfoLoaded(store.getState())) {
+      promises.push(store.dispatch(loadInfo()));
+    }
+    if (!isAuthLoaded(store.getState())) {
+      promises.push(store.dispatch(loadAuth()));
+    }
+    return Promise.all(promises);
   }
 
   render() {
@@ -132,61 +155,33 @@ export default class App extends Component {
 
             {user && <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.name}</strong>.</p>}
             
-            {/*
             <ul className="nav navbar-nav navbar-right">
               <li>
                 <a href="https://github.com/erikras/react-redux-universal-hot-example"
                    target="_blank" title="View on Github"><i className="fa fa-github"/></a>
               </li>
             </ul>
-            */}
           </div>
         </nav>
-
-
-     
-
-
-
 
         <div className={styles.appContent}>
           {this.props.children}
         </div>
 
-
-        {/*
-        <InfoBar/>
-
-       
+        <InfoBar/>       
         <div className="well text-center">
           Have questions? Ask for help <a
           href="https://github.com/erikras/react-redux-universal-hot-example/issues"
           target="_blank">on Github</a> or in the <a
           href="http://www.reactiflux.com/" target="_blank">#react-redux-universal</a> Slack channel.
         </div>
-        */}
+  
       </div>
   
     );
   }
 
-  handleLogout(event) {
-    event.preventDefault();
-    this.props.logout();
-  }
 
-  // 測試顯示一進到頁面，server sider render 初始化使用
-  static fetchData(store) {
-    const promises = [];
-
-    if (!isInfoLoaded(store.getState())) {
-      promises.push(store.dispatch(loadInfo()));
-    }
-    if (!isAuthLoaded(store.getState())) {
-      promises.push(store.dispatch(loadAuth()));
-    }
-    return Promise.all(promises);
-  }
   
 }
 
