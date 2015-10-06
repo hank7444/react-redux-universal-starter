@@ -1,0 +1,45 @@
+h1 {
+  color: #ff0000;
+  font-size: 100px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background-color: black;
+}
+
+h2 {
+  font-size: 80px;
+}
+
+/*
+nav .navbar-brand___dwl-J {
+  color: red;
+}
+*/
+nav {
+  background-color: blue;
+}
+nav .navbar-brand {
+  color: #ffffff;
+}
+
+:global .navbar-default {
+  background-color: #0088d2;
+}
+
+:global .navbar-default .navbar-nav > li > a {
+  color: #ffffff;
+}
+
+/*
+.test .sub-test___2Siym {
+  background-color: red;
+}
+*/
+:global .test :local .sub-test {
+  background-color: red;
+}
+
+.navbar-fixed-top {
+  border: 0;
+}

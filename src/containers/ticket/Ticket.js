@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { isLoaded, load as loadTickets } from 'redux/modules/tickets';
+import { load as loadTickets } from 'redux/modules/tickets';
 import * as ticketActions from 'redux/modules/tickets';
 import { TicketItem } from 'components';
 
@@ -39,35 +38,38 @@ onChange={::this.handleEdit(param1, param2, ...)}
 
 export default class Ticket extends Component {
 
-  handleStep1Submit(e) {
-    e.preventDefault();
-
-    const {tickets, step1Submit} = this.props;
-    this.props.step1Submit(tickets.eventId, tickets.data);
-  }
-
-
   // 從this.porps來的記得要寫
   static propTypes = {
     tickets: PropTypes.object.isRequired,
     editItemNumber: PropTypes.func.isRequired,
+    step1Submit: PropTypes.func.isRequired
 
     // 如果是component內自己的屬性就不用寫在這，因為也驗證不到
     // handleStep1Submit: PropTypes.func.isRequired
   };
 
+
+  static fetchData(getState, dispatch) {
+    // if (!isLoaded(store.getState())) {
+    return dispatch(loadTickets());
+    // }
+  }
+
+
+  handleStep1Submit(event) {
+    event.preventDefault();
+    const {tickets, step1Submit} = this.props;
+    step1Submit(tickets.eventId, tickets.data);
+  }
+
+
   render() {
 
-
-
-    //console.log('Tickets###:', this.props);
-    const banner = require('../../img/banner.jpg');
-    const {tickets, editItemNumber, error} = this.props;
+    const banner = require('./banner.jpg');
+    const {tickets, editItemNumber} = this.props;
     const bannerStyle = {
       'textAlign': 'center'
     };
-
-    console.log('error from Ticket' , error);
 
     return (
 
@@ -78,9 +80,8 @@ export default class Ticket extends Component {
         </div>
         <h3>貢寮海洋音樂祭</h3>
 
-
         {/* 外面至少要有一個html元件不然會壞掉.. */}
-        {tickets.error && 
+        {tickets.error &&
         <div className="alert alert-danger alert-dismissible">
           {tickets.error.errorCode}
         </div>}
@@ -95,10 +96,9 @@ export default class Ticket extends Component {
             </tr>
           </thead>
           <tbody>
-            {tickets.data.map((ticket) => 
+            {tickets && tickets.data.map((ticket) =>
                 <TicketItem key={ticket.id} data={ticket} editItemNumber={(value) => editItemNumber(ticket.id, value)}/>
-              )
-            }
+            )}
           </tbody>
         </table>
 
@@ -106,12 +106,5 @@ export default class Ticket extends Component {
 
       </div>
     );
-  }
-
-
-  static fetchData(store) {
-    //if (!isLoaded(store.getState())) {
-    return store.dispatch(loadTickets());
-    //}
   }
 }

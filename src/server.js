@@ -1,18 +1,27 @@
 import Express from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import createLocation from 'history/lib/createLocation';
 import config from './config';
 import favicon from 'serve-favicon';
 import compression from 'compression';
 import httpProxy from 'http-proxy';
+import reactCookie from 'react-cookie';
 import path from 'path';
 import createStore from './redux/create';
 import ApiClient from './helpers/ApiClient';
-import universalRouter from './helpers/universalRouter';
 import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
+
+import {IntlProvider} from 'react-intl';
+import {ReduxRouter} from 'redux-router';
+import createHistory from 'history/lib/createMemoryHistory';
+import {reduxReactRouter, match} from 'redux-router/server';
+import {Provider} from 'react-redux';
+import qs from 'query-string';
+import getRoutes from './routes';
+import getStatusFromRoutes from './helpers/getStatusFromRoutes';
+import { intlDataHash, getCurrentLocale } from './utils/intl';
 
 const pretty = new PrettyError();
 const app = new Express();
@@ -22,7 +31,7 @@ const proxy = httpProxy.createProxyServer({
 });
 
 app.use(compression());
-app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')))
+app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 app.use(require('serve-static')(path.join(__dirname, '..', 'static')));
 
 // Proxy to API server
@@ -33,24 +42,32 @@ app.use('/api', (req, res) => {
   proxy.web(req, res);
 });
 
-
 app.use('/apiTicket', (req, res) => {
   proxy.web(req, res);
 });
 
-
 // added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
 proxy.on('error', (error, req, res) => {
   let json;
-  //console.log('proxy error', error);
+  if (error.code !== 'ECONNRESET') {
+    console.error('proxy error', error);
+  }
   if (!res.headersSent) {
     res.writeHead(500, {'content-type': 'application/json'});
   }
 
-  json = { error: 'proxy_error', reason: error.message };
+  json = {error: 'proxy_error', reason: error.message};
   res.end(JSON.stringify(json));
 });
 
+
+// 初始化reactCookie，Server Side部分也可吃到
+app.use((req, res, next) => {
+  reactCookie.plugToRequest(req, res);
+  next();
+});
+
+// Render
 app.use((req, res) => {
 
   if (__DEVELOPMENT__) {
@@ -59,12 +76,11 @@ app.use((req, res) => {
     webpackIsomorphicTools.refresh();
   }
   const client = new ApiClient(req);
-  const store = createStore(client);
-  const location = createLocation(req.path, req.query);
+  const store = createStore(reduxReactRouter, getRoutes, createHistory, client);
 
-  const hydrateOnClient = function() {
+  function hydrateOnClient() {
     res.send('<!doctype html>\n' +
-      ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div/>} store={store}/>));
+      ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>));
   }
 
   // 如果將server render關掉時
@@ -72,25 +88,58 @@ app.use((req, res) => {
     hydrateOnClient();
     return;
   }
-  universalRouter(location, undefined, store, true)
-    .then(({component, redirectLocation}) => {
-      if (redirectLocation) {
-        res.redirect(redirectLocation.pathname + redirectLocation.search);
-        return;
-      }
-      res.send('<!doctype Html>\n' +
-        ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
-    })
-    .catch((error) => {
-      if (error.redirect) {
-        res.redirect(error.redirect);
-        return;
-      }
+
+  store.dispatch(match(req.originalUrl, (error, redirectLocation, routerState) => {
+
+    if (redirectLocation) {
+      res.redirect(redirectLocation.pathname + redirectLocation.search);
+    } else if (error) {
       console.error('ROUTER ERROR:', pretty.render(error));
+      res.status(500);
       hydrateOnClient();
-    });
-  
+    } else if (!routerState) {
+      res.status(500);
+      hydrateOnClient();
+    } else {
+
+      // Workaround redux-router query string issue:
+      // https://github.com/rackt/redux-router/issues/106
+      if (routerState.location.search && !routerState.location.query) {
+        routerState.location.query = qs.parse(routerState.location.search);
+      }
+
+      const localeFromRoute = getCurrentLocale(routerState.params.locale);
+      const locale = intlDataHash[localeFromRoute].locale;
+      const localeFileName = intlDataHash[localeFromRoute].file;
+      const localeMessages = require(`./intl/${localeFromRoute}`);
+      const localeData = require(`react-intl/dist/locale-data/${localeFileName}`);
+
+      store.getState().router.then(() => {
+        const component = (
+          <Provider store={store} key="provider">
+            <IntlProvider locale={locale} messages={localeMessages}>
+              <ReduxRouter/>
+            </IntlProvider>
+          </Provider>
+        );
+
+        const status = getStatusFromRoutes(routerState.routes);
+        if (status) {
+          res.status(status);
+        }
+        res.send('<!doctype html>\n' +
+          ReactDOM.renderToString(<Html locale={locale} localeData={localeData} localeMessages={localeMessages} assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
+      }).catch((err) => {
+        console.error('DATA FETCHING ERROR:', pretty.render(err));
+        res.status(500);
+        hydrateOnClient();
+      });
+
+    }
+  }));
+
 });
+
 
 if (config.port) {
   server.listen(config.port, (err) => {

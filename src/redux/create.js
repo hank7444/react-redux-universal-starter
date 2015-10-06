@@ -1,27 +1,29 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import clientMiddleware from './middlewares/client';
+import { createStore as _createStore, applyMiddleware, compose } from 'redux';
+import createMiddleware from './middlewares/clientMiddleware';
+import transitionMiddleware from './middlewares/transitionMiddleware';
 
-export default function createApiClientStore(client, data) {
-  const middleware = clientMiddleware(client);
+export default function createStore(reduxReactRouter, getRoutes, createHistory, client, data) {
+  const middleware = [createMiddleware(client), transitionMiddleware];
+
   let finalCreateStore;
-  
   if (__DEVELOPMENT__ && __CLIENT__ && __DEVTOOLS__) {
-    const { devTools, persistState } = require('redux-devtools');
+    const { persistState } = require('redux-devtools');
+    const DevTools = require('../containers/DevTools/DevTools');
     finalCreateStore = compose(
-      applyMiddleware(middleware),
-      devTools(),
+      applyMiddleware(...middleware),
+      DevTools.instrument(),
       persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
-    )(createStore);
+    )(_createStore);
   } else {
-    finalCreateStore = applyMiddleware(middleware)(createStore);
+    finalCreateStore = applyMiddleware(...middleware)(_createStore);
   }
+
+  finalCreateStore = reduxReactRouter({ getRoutes, createHistory })(finalCreateStore);
 
   const reducer = require('./modules/reducer');
   const store = finalCreateStore(reducer, data);
-  store.client = client;
 
   if (__DEVELOPMENT__ && module.hot) {
-    // Enable Webpack hot module replacement for reducers
     module.hot.accept('./modules/reducer', () => {
       store.replaceReducer(require('./modules/reducer'));
     });

@@ -10,7 +10,7 @@ $gray: #f0f0f0;
 h1 {
 	color: $red;
 	font-size: 100px;
-	@include border-radius(10px);
+	@include border-radius(20px);
 	background-color: black;
 }
 

@@ -1,8 +1,9 @@
 const isEmpty = value => value === undefined || value === null || value === '';
-//const join = (rules) => value => rules.map(rule => rule(value)).filter(error => !!error)[0 /* first error */];
+const join = (rules) => value => rules.map(rule => rule(value)).filter(error => !!error)[0 /* first error */];
 
 // 同上面的寫法, 實在是優雅的讓人看不太懂啊~~
-function join(rules) {
+/*
+const join = function(rules) {
   return function (value) {
     return rules.map(function (rule) {
       return rule(value);
@@ -11,6 +12,7 @@ function join(rules) {
     })[0]; // 取得第一個錯誤
   };
 };
+*/
 
 
 export function email(value) {
@@ -71,11 +73,11 @@ export function createValidator(rules) {
 
     // 取得obj所有的key轉為array
     Object.keys(rules).forEach((key) => {
-      //console.log(rules[key]);
+      // console.log(rules[key]);
       const rule = join([].concat(rules[key])); // concat enables both functions and arrays of functions
       const error = rule(data[key]);
 
-      //console.log(error);
+      // console.log(error);
       if (error) {
         errors[key] = error;
         errors.valid = false;

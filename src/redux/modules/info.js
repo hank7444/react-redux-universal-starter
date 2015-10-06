@@ -36,6 +36,7 @@ export function isLoaded(globalState) {
   return globalState.info && globalState.info.loaded;
 }
 
+
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],

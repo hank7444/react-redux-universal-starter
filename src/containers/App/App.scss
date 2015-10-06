@@ -1,0 +1,31 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+.app {
+  :global(.navbar-brand) {
+    position:relative;
+    padding-left: 50px;
+  }
+  .brand {
+    position: relative;
+    $size: 40px;
+    top: -5px;
+    display:inline-block;
+    background: url('./accupass_logo.png') no-repeat center center;
+    width: 135px;
+    height: 30px;
+    //background-size: 80%;
+    //margin: 0 10px 0 0;
+    //border-radius: $size / 2;
+  }
+  nav :global(.fa) {
+    font-size: 2em;
+    line-height: 20px;
+  }
+}
+.loggedInMessage {
+  color: yellow !important;
+}
+.appContent {
+  padding-top: 70px;
+}

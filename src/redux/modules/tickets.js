@@ -32,22 +32,16 @@ const initialState = {
 
 export default function reducer(state = initialState, action = {}) {
 
-
-  console.log('action:', action);
-
-
   /*
   action是action傳進來的參數
   state是整個對應reducer的store
   */
-  //console.log('###state:', state);
   switch (action.type) {
     case LOAD:
       return {
         ...state,
         loading: true,
         orderId: null,
-        //data: null 加這個會導致Load時[].map無資料的錯誤，所以要拿掉，讓react用之前的資料
       };
     case LOAD_SUCCESS:
 
@@ -70,13 +64,12 @@ export default function reducer(state = initialState, action = {}) {
       };
     case EDIT_ITEM_NUMBER:
 
-      const data = state.data.map(function(ticket) {
-      	if (ticket.id === action.id) {
-        	return Object.assign({}, ticket, { quantity: +action.number });
-      	}
-      	else {
-        	return ticket;
-     	 }
+      const data = state.data.map(ticket => {
+
+        if (ticket.id === action.id) {
+          return Object.assign({}, ticket, { quantity: +action.number });
+        }
+        return ticket;
       });
 
       return {
@@ -103,7 +96,7 @@ export default function reducer(state = initialState, action = {}) {
         loaded: true
       };
 
-    case STEP1_FAIL: 
+    case STEP1_FAIL:
 
       return {
         ...state,
@@ -124,8 +117,6 @@ export default function reducer(state = initialState, action = {}) {
 
     case GET_ORDER_SUCCESS:
 
-      //console.log(action.result);
-
       return {
         ...state,
         orderId: action.result.id,
@@ -135,7 +126,7 @@ export default function reducer(state = initialState, action = {}) {
         error: null
       };
 
-    case GET_ORDER_FAIL: 
+    case GET_ORDER_FAIL:
 
       return {
         ...state,
@@ -150,13 +141,14 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loading: true,
-        loaded: false
+        loaded: false,
+        goStep3: false
       };
 
 
     case STEP2_SUCCESS:
 
-      //console.log(action.result);
+      // console.log(action.result);
       return {
         ...state,
         goStep2: false,
@@ -165,7 +157,7 @@ export default function reducer(state = initialState, action = {}) {
         loaded: true
       };
 
-    case STEP2_FAIL: 
+    case STEP2_FAIL:
 
       return {
         ...state,
@@ -173,7 +165,6 @@ export default function reducer(state = initialState, action = {}) {
         error: action.error
       };
 
-      
     default:
       return state;
   }
@@ -183,14 +174,14 @@ export function step1Submit(eventId, tickets) {
 
   // 至少要送出1筆, 不然會壞掉
   const lineItems = tickets
-  .filter(function(ticket) {
-    return +ticket.quantity > 0
+  .filter(ticket => {
+    return +ticket.quantity > 0;
   })
-  .map(function(ticket) {
+  .map(ticket => {
     return {
       ticketClassId: ticket.id,
       quantity: ticket.quantity
-    }
+    };
   });
 
   const options = {
@@ -201,7 +192,7 @@ export function step1Submit(eventId, tickets) {
       isTest: false
     }
   };
-  
+
   return {
     types: [STEP1, STEP1_SUCCESS, STEP1_FAIL],
     promise: (client) => client.post('/apiTicket/v1/orders', options)
@@ -218,8 +209,7 @@ export function step2Submit(orderId, profile) {
   return {
     types: [STEP2, STEP2_SUCCESS, STEP2_FAIL],
     promise: (client) => client.post('/apiTicket/v1/checkouts/' + orderId + '/payment', options)
-  }
-
+  };
 }
 
 export function load() {

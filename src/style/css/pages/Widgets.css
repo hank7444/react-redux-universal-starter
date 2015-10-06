@@ -1,0 +1,89 @@
+/*
+Error: Invalid CSS after ":global(": expected pseudo_expr, was ".btn)"
+        on line 23 of /Users/hank7444/Documents/accuvally/accupass-rocket-f2e/src/style/sass/pages/Widgets.scss
+
+18:   .ownerCol {
+19:     width: 30%;
+20:   }
+21:   .buttonCol {
+22:     width: 25%;
+23:     :global(.btn) {
+24:       margin: 0 5px;
+25:     }
+26:   }
+27:   tr.saving {
+28:     opacity: 0.8;
+
+Backtrace:
+/Users/hank7444/Documents/accuvally/accupass-rocket-f2e/src/style/sass/pages/Widgets.scss:23
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/scss/parser.rb:1164:in `expected'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/scss/parser.rb:1098:in `expected'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/scss/parser.rb:1078:in `expr!'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/scss/static_parser.rb:295:in `pseudo_args'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/scss/parser.rb:1076:in `expr!'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/scss/static_parser.rb:286:in `pseudo'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/scss/static_parser.rb:154:in `simple_selector_sequence'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/scss/static_parser.rb:112:in `selector'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/scss/static_parser.rb:86:in `selector_comma_sequence'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/scss/parser.rb:1076:in `expr!'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/scss/static_parser.rb:20:in `parse_selector'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:425:in `visit_rule'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/stack.rb:79:in `block in with_base'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/stack.rb:115:in `with_frame'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/stack.rb:79:in `with_base'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:431:in `block (2 levels) in visit_rule'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:431:in `map'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:431:in `block in visit_rule'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:429:in `visit_rule'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/stack.rb:79:in `block in with_base'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/stack.rb:115:in `with_frame'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/stack.rb:79:in `with_base'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:431:in `block (2 levels) in visit_rule'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:431:in `map'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:431:in `block in visit_rule'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:429:in `visit_rule'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/stack.rb:79:in `block in with_base'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/stack.rb:115:in `with_frame'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/stack.rb:79:in `with_base'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/base.rb:52:in `map'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:157:in `visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/tree/root_node.rb:20:in `render'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/engine.rb:278:in `render'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/plugin/compiler.rb:209:in `each'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/plugin/compiler.rb:470:in `on_file_changed'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327@global/gems/sass-3.4.18/lib/sass/plugin/compiler.rb:328:in `block in watch'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327/gems/listen-2.8.3/lib/listen/listener.rb:282:in `call'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327/gems/listen-2.8.3/lib/listen/listener.rb:282:in `_process_changes'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327/gems/listen-2.8.3/lib/listen/listener.rb:246:in `block in _wait_for_changes'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327/gems/listen-2.8.3/lib/listen/listener.rb:229:in `loop'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327/gems/listen-2.8.3/lib/listen/listener.rb:229:in `_wait_for_changes'
+/Users/hank7444/.rvm/gems/ruby-1.9.3-p327/gems/listen-2.8.3/lib/listen/listener.rb:318:in `block in _start_wait_thread'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \":global(\": expected pseudo_expr, was \".btn)\"\A         on line 23 of /Users/hank7444/Documents/accuvally/accupass-rocket-f2e/src/style/sass/pages/Widgets.scss\A \A 18:   .ownerCol {\A 19:     width: 30%;\A 20:   }\A 21:   .buttonCol {\A 22:     width: 25%;\A 23:     :global(.btn) {\A 24:       margin: 0 5px;\A 25:     }\A 26:   }\A 27:   tr.saving {\A 28:     opacity: 0.8;"; }

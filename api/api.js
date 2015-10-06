@@ -3,9 +3,11 @@ require('../server.babel'); // babel registration (runtime transpilation for nod
 import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
-import config from './config';
-import * as actions from './routes/index';
 import PrettyError from 'pretty-error';
+
+import config from '../src/config';
+import * as actions from './routes/index';
+
 
 const pretty = new PrettyError();
 const app = express();
@@ -24,14 +26,14 @@ app.use((req, res) => {
   const matcher = req.url.split('?')[0].split('/').slice(1);
 
   // 將第一個沒用的空白清除
-  //const action = matcher && actions[matcher[0]];
+  // const action = matcher && actions[matcher[0]];
   let action = false;
   let params = null;
-  let apiActions = actions
+  let apiActions = actions;
   let sliceIndex = 0; // 從哪個index開始當作參數
 
   // Array.forEach 沒有break可以用啊~~
-  for (let actionName of matcher) {
+  for (const actionName of matcher) {
 
     // 不知道這邊有沒有更簡潔的寫法 :(
     if (apiActions[actionName]) {
@@ -52,7 +54,7 @@ app.use((req, res) => {
     action(req, params)
       .then((result) => {
 
-        //console.log(result);
+        // console.log(result);
         res.json(result);
       }, (reason) => {
         if (reason && reason.redirect) {

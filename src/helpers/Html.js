@@ -4,6 +4,7 @@ import serialize from 'serialize-javascript';
 import DocumentMeta from 'react-document-meta';
 const cdn = '//cdnjs.cloudflare.com/ajax/libs/';
 
+
 /**
  * Wrapper component containing HTML metadata and boilerplate tags.
  * Used in server-side code only to wrap the string output of the
@@ -15,17 +16,28 @@ const cdn = '//cdnjs.cloudflare.com/ajax/libs/';
  */
 export default class Html extends Component {
   static propTypes = {
-    assets: PropTypes.object,
-    component: PropTypes.object,
-    store: PropTypes.object
+    locale: PropTypes.string.isRequired,
+    localeData: PropTypes.array.isRequired,
+    localeMessages: PropTypes.object.isRequired,
+    assets: PropTypes.object.isRequired,
+    component: PropTypes.node.isRequired,
+    store: PropTypes.object.isRequired
   }
 
   render() {
-    const {assets, component, store} = this.props;
-    const content = ReactDOM.renderToString(component);
+    const {locale, localeData, localeMessages, assets, component, store} = this.props;
+    const content = component ? ReactDOM.renderToString(component) : '';
+
+
+    const data = {
+      store: store.getState(),
+      locale: locale,
+      localeData: localeData,
+      localeMessages: localeMessages
+    };
 
     return (
-      <html lang="en-us">
+      <html lang={locale}>
         <head>
           <meta charSet="utf-8"/>
           {DocumentMeta.renderAsReact()}
@@ -44,7 +56,7 @@ export default class Html extends Component {
         </head>
         <body>
           <div id="content" dangerouslySetInnerHTML={{__html: content}}/>
-          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(store.getState())};`}} />
+          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(data)};`}} />
           <script src={assets.javascript.main}/>
         </body>
       </html>

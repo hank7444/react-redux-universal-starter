@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { connectReduxForm } from 'redux-form';
-import widgetValidation, { colors } from './widgetValidation';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {connectReduxForm} from 'redux-form';
+import widgetValidation, {colors} from './widgetValidation';
 import * as widgetActions from 'redux/modules/widgets';
 
 @connect(
@@ -35,7 +35,7 @@ export default class WidgetForm extends Component {
   render() {
     const { editStop, fields: {id, color, sprocketCount, owner}, formKey, handleBlur, handleChange, handleSubmit, invalid,
       pristine, save, submitting, saveError: { [formKey]: saveError }, values } = this.props;
-    const styles = require('style/sass/pages/Widgets.scss');
+    const styles = require('containers/Widgets/Widgets.scss');
     return (
       <tr className={submitting ? styles.saving : ''}>
         <td className={styles.idCol}>{id.value}</td>

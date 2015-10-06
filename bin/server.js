@@ -1,5 +1,11 @@
 #!/usr/bin/env node
-require('../server.babel'); // babel registration (runtime transpilation for node)
+
+
+
+// babel registration (runtime transpilation for node)
+require('../server.babel'); 
+require("../src/server/intl-polyfill");
+
 var path = require('path');
 var rootDir = path.resolve(__dirname, '..');
 /**
@@ -18,6 +24,8 @@ if (__DEVELOPMENT__) {
     return;
   }
 }
+
+
 
 // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
 var WebpackIsomorphicTools = require('webpack-isomorphic-tools');

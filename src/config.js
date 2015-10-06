@@ -6,7 +6,9 @@ module.exports = {
     app: {
       name: 'React Redux Example Development'
     },
-    debug: false
+    locale: 'tw',
+    locales: ['tw', 'en'],
+    debug: true
   },
   production: {
     isProduction: true,
@@ -14,6 +16,9 @@ module.exports = {
     apiPort: 3030,
     app: {
       name: 'React Redux Example Production'
-    }
+    },
+    locale: 'tw',
+    locales: ['tw', 'en'],
+    debug: true
   }
 }[process.env.NODE_ENV || 'development'];

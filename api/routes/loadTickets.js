@@ -11,26 +11,15 @@ const initialTickets = {
   }]
 };
 
-
-
-export default function loadTickets(req) {
+export default function loadTickets() {
 
   return new Promise((resolve, reject) => {
-    // make async call to database
 
-    //console.log('aaa:', aaa);
-    
+    if (!initialTickets) {
+      reject('tickets load fails.');
+    }
+
     resolve(initialTickets);
-
-    /*
-    setTimeout(() => {
-      if (Math.floor(Math.random() * 3) === 0) {
-        reject('Widget load fails 33% of the time. You were unlucky.');
-      } else {
-        resolve(getWidgets(req));
-      }
-    }, 1000); // simulate async load
-    */
   });
 }
 
