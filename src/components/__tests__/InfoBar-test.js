@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import {renderIntoDocument} from 'react-addons-test-utils';
 import { expect} from 'chai';
 import { InfoBar } from 'components';
+import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import {reduxReactRouter} from 'redux-router';
 import createHistory from 'history/lib/createMemoryHistory';
 import createStore from 'redux/create';
 import ApiClient from 'helpers/ApiClient';
+import { intlDataHash } from 'utils/intl';
 const client = new ApiClient();
 
 describe('InfoBar', () => {
@@ -23,11 +25,17 @@ describe('InfoBar', () => {
     }
   };
 
-  // const store = createStore(client, mockStore);
+  const localeFromRoute = 'en';
+  const locale = intlDataHash[localeFromRoute].locale;
+  const localeMessages = require(`intl/${localeFromRoute}`);
+
+
   const store = createStore(reduxReactRouter, null, createHistory, client, mockStore);
   const renderer = renderIntoDocument(
     <Provider store={store} key="provider">
-      <InfoBar/>
+      <IntlProvider locale={locale} messages={localeMessages}>
+        <InfoBar/>
+      </IntlProvider>
     </Provider>
   );
   const dom = ReactDOM.findDOMNode(renderer);
@@ -47,7 +55,7 @@ describe('InfoBar', () => {
   });
 
   it('should render the correct className', () => {
-    const styles = require('style/sass/components/InfoBar.scss');
+    const styles = require('components/InfoBar/InfoBar.scss');
     expect(styles.infoBar).to.be.a('string');
     expect(dom.className).to.include(styles.infoBar);
   });
