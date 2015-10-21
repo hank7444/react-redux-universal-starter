@@ -6,7 +6,7 @@ module.exports = function (config) {
 
     browsers: [ process.env.CONTINUOUS_INTEGRATION ? 'Firefox' : 'Chrome' ],
 
-    singleRun: !!process.env.CONTINUOUS_INTEGRATION,
+    singleRun: true, //!!process.env.CONTINUOUS_INTEGRATION,
 
     frameworks: [ 'mocha' ],
 
@@ -21,7 +21,11 @@ module.exports = function (config) {
     reporters: ['mocha', 'coverage'],
 
     coverageReporter: {
-        type: 'text'
+      dir: 'coverage/',
+      reporters: [
+        {type: 'text'},
+        //{type: 'html', subdir: 'html' }
+      ]
     },
 
     webpack: {
@@ -38,7 +42,7 @@ module.exports = function (config) {
           // instrument only testing sources with Istanbul
           {
               test: /\.js$/,
-              include: path.resolve('src/components/'),
+              include: path.resolve('src/'),
               loader: 'istanbul-instrumenter'
           }
         ]

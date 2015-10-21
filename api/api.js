@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import PrettyError from 'pretty-error';
 
 import config from '../src/config';
-import * as actions from './routes/index';
+import * as actions from './actions/index';
 
 
 const pretty = new PrettyError();
