@@ -44,9 +44,9 @@ export default class Html extends Component {
 
           <link rel="shortcut icon" href="/favicon.ico" />
           <link href={cdn + 'twitter-bootstrap/3.3.5/css/bootstrap.css'}
-                media="screen, projection" rel="stylesheet" type="text/css" />
+                media="screen, projection" rel="stylesheet" type="text/css" charSet="UTF-8"/>
           <link href={cdn + 'font-awesome/4.3.0/css/font-awesome.min.css'}
-                media="screen, projection" rel="stylesheet" type="text/css" />
+                media="screen, projection" rel="stylesheet" type="text/css" charSet="UTF-8"/>
 
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, key) =>
@@ -56,8 +56,8 @@ export default class Html extends Component {
         </head>
         <body>
           <div id="content" dangerouslySetInnerHTML={{__html: content}}/>
-          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(data)};`}} />
-          <script src={assets.javascript.main}/>
+          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(data)};`}} charSet="UTF-8"/>
+          <script src={assets.javascript.main} charSet="UTF-8"/>
         </body>
       </html>
     );
